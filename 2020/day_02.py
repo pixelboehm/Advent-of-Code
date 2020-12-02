@@ -26,9 +26,14 @@ def getNumberOfCharacters(string, char):
     return amount
 
 
+def checkPositions(string, char, lower_number, higher_number):
+    return (string[lower_number - 1] == char) ^ (string[higher_number - 1] == char)
+
+
 def main():
     items = dict()
     answer_one = 0
+    answer_two = 0
     with open("input_day02.txt") as fp:
         for entry in fp.readlines():
             items = prepareDictionary(items, entry)
@@ -40,8 +45,13 @@ def main():
             actual_number = getNumberOfCharacters(value, char)
 
             if lower_number <= actual_number <= higher_number:
-                result += 1
+                answer_one += 1
+
+            if checkPositions(value, char, lower_number, higher_number):
+                answer_two += 1
+
     print(answer_one)  # Task 1
+    print(answer_two)  # Task 2
 
 
 if __name__ == "__main__":
