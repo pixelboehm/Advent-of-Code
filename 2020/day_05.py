@@ -43,11 +43,19 @@ def getSeatID(input):
 
 
 all_entries = getEntries()
+all_seatIDs = []
 
 for entry in all_entries:
     current_seatID = getSeatID(entry)
+    all_seatIDs.append(current_seatID)
 
     if current_seatID > highest_seatID:
         highest_seatID = current_seatID
 
 print(highest_seatID)  # answer_one
+
+all_seatIDs.sort()
+for index in range(1, len(all_seatIDs)):
+    if all_seatIDs[index - 1] + 2 == all_seatIDs[index]:
+        print(all_seatIDs[index] - 1)  # answer two
+
