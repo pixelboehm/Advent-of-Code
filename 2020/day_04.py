@@ -86,7 +86,7 @@ def checkHeight(height):
 
 
 def checkHairColor(color):
-    check = re.search(r"^#(?:[0-9a-f]{3}){1,2}$", color)
+    check = re.search(r"^#(?:[0-9a-f]{3}){2}$", color)
     if check != None:
         return True
     return False
