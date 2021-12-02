@@ -1,10 +1,13 @@
 import unittest
 
+## Need to start over again, because the input needs to be read in sequence and not in total
+
 class Boat():
 
     def main(self):
         position = {
             'forward': 0,
+            'depth': 0,
             'up': 0,
             'down': 0,
             'aim': 0,
@@ -13,8 +16,20 @@ class Boat():
         with open("input_day02.txt") as fp:
             for entry in fp.readlines():
                 commands.append(entry.rstrip("\n"))         
-        result_task_one = self.multiply_final_horizontal_position_with_depth(commands, position)
-        print(result_task_one)
+                direction, value = self.get_coordinates(entry.rstrip("\n"))
+
+                if direction == "forward":
+                    position["forward"] += value
+                    position["depth"] += position["aim"] * value 
+                elif direction == "up":
+                    position["aim"] -= value
+                elif direction == "down":
+                    position["aim"] += value
+                else:
+                    print("Unknown Direction")
+
+            result_task2 = position["forward"] * position["depth"]
+            print(result_task2)
 
 
     def get_coordinates(self, coordinates):
@@ -42,7 +57,9 @@ class Boat():
         position = self.get_final_coordinates(commands, position)
         return position['forward'] * self.calculate_depth(position)
             
-
+    def calculate_aim(self, position):
+        position['aim'] = position['down'] - position['up']
+        return position
 
 class Tests(unittest.TestCase):
 
@@ -86,36 +103,6 @@ class Tests(unittest.TestCase):
             'aim': 0
         }
         actual = self.boat.add_coordinates_to_position(self.position, direction, value)
-        self.assertEqual(expected, actual)
-
-
-    def test_get_final_position(self):
-        expected = {
-            'forward': 1,
-            'up': 2,
-            "down": 3,
-            "aim": 0,
-        }
-        actual = self.boat.get_final_coordinates(['forward 1', 'up 2', 'down 3'], self.position)
-        self.assertEqual(expected, actual)
-
-
-    def test_calculate_depth(self):
-        input = {
-            'forward': 1,
-            'up': 2,
-            "down": 3,
-            "aim": 0,
-        }
-        expected = 1
-        actual = self.boat.calculate_depth(input)
-        self.assertEqual(expected, actual)
-
-
-    def test_calculate_final_position(self): 
-        input = ['forward 1', 'forward 1', 'down 3', 'up 2', 'down 2']
-        expected = 6
-        actual = self.boat.multiply_final_horizontal_position_with_depth(input, self.position)
         self.assertEqual(expected, actual)
 
 
