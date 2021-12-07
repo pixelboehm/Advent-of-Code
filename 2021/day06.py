@@ -1,19 +1,18 @@
+from collections import Counter, defaultdict
+
 timer = open("input_day06.txt").read().split(',')
 timer = [int(x) for x in timer]
 
-def decrease_timer(timer):
-	timer = [x - 1 for x in timer]
-	return timer
+counter = defaultdict(int, Counter(timer))
 
-def reset_timer(timer):
-	for i in range(len(timer)):
-		if timer[i] == -1:
-			timer[i] = 6
-			timer.append(8)
-	return timer
-
-for i in range(0, 80):
-	timer = decrease_timer(timer)
-	timer = reset_timer(timer)
-	
-print(len(timer))
+for _ in range(256):
+	new_values = defaultdict(int)
+	for key, value in counter.items():
+		if key == 0:
+			new_values[6] += value
+			new_values[8] += value
+		else:
+			new_values[key-1] += value
+	counter = new_values
+result_task_two = sum(counter.values())
+print("Result Task Two: {}".format(result_task_two))
