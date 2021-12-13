@@ -1,5 +1,3 @@
-import itertools
-
 inp = open("input_day08.txt").read().splitlines()
 segments = [x.split(" | ") for x in inp]
 
